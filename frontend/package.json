@@ -8,7 +8,7 @@
     "build": "vite build && node copy-static.js",
     "preview": "vite preview"
   },
-  "devDependencies": {
+  "dependencies": {
     "vite": "^5.0.0"
   }
 }
