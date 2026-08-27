@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Emergency Ambulance Service</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-ambulance"></i>
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#pending" class="nav-item active" data-section="pending">
+                    <i class="fas fa-clock"></i>
+                    <span>Pending Approvals</span>
+                    <span class="badge" id="pending-count">0</span>
+                </a>
+                <a href="#approved" class="nav-item" data-section="approved">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Approved Users</span>
+                </a>
+                <a href="#overview" class="nav-item" data-section="overview">
+                    <i class="fas fa-chart-line"></i>
+                    <span>System Overview</span>
+                </a>
+                <a href="#analytics" class="nav-item" data-section="analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#reviews" class="nav-item" data-section="reviews">
+                    <i class="fas fa-star"></i>
+                    <span>Reviews</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <i class="fas fa-user-shield"></i>
+                    <div>
+                        <div class="admin-name" id="admin-name">Admin</div>
+                        <div class="admin-email" id="admin-email">admin@ambulance.com</div>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="main-header">
+                <h1 id="page-title">Pending Approvals</h1>
+                <button class="btn-refresh" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            </header>
+
+            <!-- Pending Approvals Section -->
+            <section id="pending-section" class="content-section active">
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-tab="drivers">
+                        <i class="fas fa-user-md"></i>
+                        Drivers
+                        <span class="tab-badge" id="drivers-count">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="hospitals">
+                        <i class="fas fa-hospital"></i>
+                        Hospitals
+                        <span class="tab-badge" id="hospitals-count">0</span>
+                    </button>
+                </div>
+
+                <!-- Pending Drivers -->
+                <div class="tab-content active" id="drivers-tab">
+                    <div id="pending-drivers" class="cards-grid">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No pending driver registrations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Hospitals -->
+                <div class="tab-content" id="hospitals-tab">
+                    <div id="pending-hospitals" class="cards-grid">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No pending hospital registrations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Approved Users Section -->
+            <section id="approved-section" class="content-section">
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-tab="approved-drivers">
+                        <i class="fas fa-user-md"></i>
+                        Drivers
+                    </button>
+                    <button class="tab-btn" data-tab="approved-hospitals">
+                        <i class="fas fa-hospital"></i>
+                        Hospitals
+                    </button>
+                </div>
+
+                <div class="tab-content active" id="approved-drivers-tab">
+                    <div id="approved-drivers-list" class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>License</th>
+                                    <th>Ambulance</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="approved-drivers-body">
+                                <tr>
+                                    <td colspan="7" class="empty-cell">No approved drivers</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="approved-hospitals-tab">
+                    <div id="approved-hospitals-list" class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Hospital Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Capacity</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="approved-hospitals-body">
+                                <tr>
+                                    <td colspan="7" class="empty-cell">No approved hospitals</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Overview Section -->
+            <section id="overview-section" class="content-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #fee2e2; color: #dc2626;">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-ambulances">0</div>
+                            <div class="stat-label">Total Ambulances</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #dbeafe; color: #2563eb;">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-drivers">0</div>
+                            <div class="stat-label">Active Drivers</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #dcfce7; color: #059669;">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-hospitals">0</div>
+                            <div class="stat-label">Registered Hospitals</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #fef3c7; color: #d97706;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="pending-approvals">0</div>
+                            <div class="stat-label">Pending Approvals</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics-section" class="content-section">
+                <style>
+                    .analytics-period-btns { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+                    .period-btn {
+                        padding: 8px 20px; border-radius: 20px; border: 2px solid #e5e7eb;
+                        background: white; cursor: pointer; font-weight: 600; font-size: 14px;
+                        color: #6b7280; transition: all 0.2s;
+                    }
+                    .period-btn.active { background: #dc2626; border-color: #dc2626; color: white; }
+                    .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+                    .analytics-card {
+                        background: white; border-radius: 16px; padding: 24px;
+                        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+                    }
+                    .analytics-card h3 { font-size: 16px; font-weight: 700; color: #1e293b; margin: 0 0 20px; display: flex; align-items: center; gap: 8px; }
+                    .chart-bar-container { display: flex; flex-direction: column; gap: 10px; }
+                    .chart-bar-row { display: flex; align-items: center; gap: 10px; }
+                    .chart-bar-label { font-size: 12px; color: #6b7280; min-width: 80px; text-align: right; }
+                    .chart-bar-track { flex: 1; height: 20px; background: #f1f5f9; border-radius: 10px; overflow: hidden; }
+                    .chart-bar-fill { height: 100%; border-radius: 10px; transition: width 0.8s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; }
+                    .chart-bar-val { font-size: 11px; font-weight: 700; color: white; }
+                    .peak-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+                    .peak-cell {
+                        aspect-ratio: 1; border-radius: 4px; display: flex; align-items: center;
+                        justify-content: center; font-size: 10px; font-weight: 600; color: white;
+                        cursor: default; transition: transform 0.2s;
+                    }
+                    .peak-cell:hover { transform: scale(1.1); }
+                    .analytics-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+                    .summary-pill {
+                        background: #f8fafc; border-radius: 10px; padding: 12px;
+                        text-align: center; border: 1px solid #e2e8f0;
+                    }
+                    .summary-pill .val { font-size: 22px; font-weight: 800; color: #1e293b; }
+                    .summary-pill .lbl { font-size: 11px; color: #6b7280; margin-top: 2px; }
+                    .incident-list { display: flex; flex-direction: column; gap: 8px; }
+                    .incident-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #f8fafc; border-radius: 8px; }
+                    .incident-name { font-size: 13px; font-weight: 600; color: #374151; }
+                    .incident-count { font-size: 13px; font-weight: 700; color: #dc2626; }
+                    #analytics-loading { text-align: center; padding: 60px; color: #6b7280; font-size: 16px; }
+                </style>
+
+                <div class="analytics-period-btns">
+                    <button class="period-btn active" data-period="24h" onclick="loadAnalytics('24h', this)">Last 24h</button>
+                    <button class="period-btn" data-period="7d" onclick="loadAnalytics('7d', this)">Last 7 Days</button>
+                    <button class="period-btn" data-period="30d" onclick="loadAnalytics('30d', this)">Last 30 Days</button>
+                </div>
+
+                <div id="analytics-loading" style="display:none;">
+                    <i class="fas fa-spinner fa-spin"></i> Loading analytics...
+                </div>
+
+                <div id="analytics-content">
+                    <div class="analytics-summary">
+                        <div class="summary-pill">
+                            <div class="val" id="an-total">-</div>
+                            <div class="lbl">Total Bookings</div>
+                        </div>
+                        <div class="summary-pill">
+                            <div class="val" id="an-completed">-</div>
+                            <div class="lbl">Completed</div>
+                        </div>
+                        <div class="summary-pill">
+                            <div class="val" id="an-cancelled">-</div>
+                            <div class="lbl">Cancelled</div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-grid">
+                        <!-- Bookings per day chart -->
+                        <div class="analytics-card">
+                            <h3><i class="fas fa-chart-bar" style="color:#dc2626"></i> Bookings Over Time</h3>
+                            <div id="bookings-chart" class="chart-bar-container"></div>
+                        </div>
+
+                        <!-- Peak hours heatmap -->
+                        <div class="analytics-card">
+                            <h3><i class="fas fa-fire" style="color:#f59e0b"></i> Peak Hours Heatmap</h3>
+                            <div id="peak-hours-chart" class="peak-grid"></div>
+                            <div style="display:flex; gap:8px; margin-top:12px; font-size:11px; color:#6b7280; align-items:center;">
+                                <div style="width:14px;height:14px;background:#fee2e2;border-radius:3px;"></div> Low
+                                <div style="width:14px;height:14px;background:#fca5a5;border-radius:3px;"></div> Medium
+                                <div style="width:14px;height:14px;background:#dc2626;border-radius:3px;"></div> High
+                            </div>
+                        </div>
+
+                        <!-- Incident types -->
+                        <div class="analytics-card">
+                            <h3><i class="fas fa-exclamation-circle" style="color:#7c3aed"></i> Emergency Types</h3>
+                            <div id="incident-chart" class="incident-list"></div>
+                        </div>
+
+                        <!-- Response time by severity -->
+                        <div class="analytics-card">
+                            <h3><i class="fas fa-stopwatch" style="color:#059669"></i> Avg Response Time (min)</h3>
+                            <div id="response-chart" class="chart-bar-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reviews Section -->
+            <section id="reviews-section" class="content-section">
+                <div id="reviews-list" style="display:grid;gap:16px;"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="confirm-title">Confirm Action</h3>
+            </div>
+            <div class="modal-body" id="confirm-body">
+                Are you sure you want to proceed?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" id="confirm-btn" onclick="confirmAction()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" id="message-header">
+                <h3 id="message-title">Message</h3>
+            </div>
+            <div class="modal-body" id="message-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeMessageModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

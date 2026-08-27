@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Registration - Smart Ambulance System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .registration-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .registration-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .registration-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .registration-header p {
+            opacity: 0.9;
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 30px 20px;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 30px;
+            right: 30px;
+            height: 2px;
+            background: #e5e7eb;
+            z-index: 0;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .step.active .step-number {
+            background: #3b82f6;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .step.completed .step-number {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .step.active .step-label {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        /* Form Content */
+        .form-content {
+            padding: 30px;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* OTP Input */
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .otp-input:focus {
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+
+        .resend-otp {
+            text-align: center;
+            margin-top: 20px;
+            color: #6b7280;
+        }
+
+        .resend-otp button {
+            background: none;
+            border: none;
+            color: #3b82f6;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .resend-otp button:disabled {
+            color: #9ca3af;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        /* File Upload */
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+
+        .upload-zone:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .upload-zone.dragover {
+            border-color: #3b82f6;
+            background: #dbeafe;
+            transform: scale(1.02);
+        }
+
+        .upload-zone i {
+            font-size: 3rem;
+            color: #3b82f6;
+            margin-bottom: 15px;
+        }
+
+        .upload-zone p {
+            color: #6b7280;
+            margin: 5px 0;
+        }
+
+        .upload-zone .file-types {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            margin-top: 10px;
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-details {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .file-size {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .file-remove {
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-remove:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        /* Buttons */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Success Screen */
+        .success-screen {
+            text-align: center;
+            padding: 60px 30px;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: #10b981;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 3rem;
+            animation: scaleIn 0.5s;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .success-screen h2 {
+            color: #10b981;
+            margin-bottom: 15px;
+        }
+
+        .success-screen p {
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .application-id {
+            background: #f0fdf4;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        /* Password Strength Meter */
+        .password-strength {
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .strength-weak { width: 33%; background: #ef4444; }
+        .strength-medium { width: 66%; background: #f59e0b; }
+        .strength-strong { width: 100%; background: #10b981; }
+
+        /* Checkbox */
+        .checkbox-group {
+            margin: 20px 0;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-steps {
+                padding: 30px 15px 15px;
+            }
+
+            .step-label {
+                font-size: 0.75rem;
+            }
+
+            .otp-input {
+                width: 40px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <div class="registration-header">
+            <h1><i class="fas fa-ambulance"></i> Smart Ambulance System</h1>
+            <p>Enhanced Registration Process</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">Basic Info</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">Verify Email</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">Upload Docs</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-label">Review</div>
+            </div>
+        </div>
+
+        <!-- Form Content -->
+        <div class="form-content">
+            <form id="registration-form">
+                <!-- Step 1: Basic Information -->
+                <div class="form-step active" data-step="1">
+                    <h2 style="margin-bottom: 20px;">Basic Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" pattern="[0-9]{10}" required placeholder="10-digit number">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" required placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" required placeholder="Create a strong password" oninput="checkPasswordStrength()">
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="strengthBar"></div>
+                        </div>
+                        <small id="strengthText" style="color: #6b7280; margin-top: 5px; display: block;"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password *</label>
+                        <input type="password" id="confirmPassword" required placeholder="Re-enter password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role">Register As *</label>
+                        <select id="role" required onchange="updateFormFields()">
+                            <option value="">Select Role</option>
+                            <option value="driver">Ambulance Driver</option>
+                            <option value="hospital">Hospital</option>
+                        </select>
+                    </div>
+
+                    <!-- Driver Specific Fields -->
+                    <div id="driverFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="licenseNumber">Driving License Number *</label>
+                            <input type="text" id="licenseNumber" placeholder="DL-1234567890">
+                        </div>
+                    </div>
+
+                    <!-- Hospital Specific Fields -->
+                    <div id="hospitalFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="hospitalName">Hospital Name *</label>
+                            <input type="text" id="hospitalName" placeholder="Enter hospital name">
+                        </div>
+                        <div class="form-group">
+                            <label for="hospitalAddress">Hospital Address *</label>
+                            <textarea id="hospitalAddress" rows="3" placeholder="Enter complete address"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Email Verification -->
+                <div class="form-step" data-step="2">
+                    <h2 style="margin-bottom: 20px; text-align: center;">Verify Your Email</h2>
+                    <p style="text-align: center; color: #6b7280; margin-bottom: 30px;">
+                        We've sent a 6-digit OTP to <strong id="displayEmail"></strong>
+                    </p>
+
+                    <div class="otp-container">
+                        <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 1)">
+                        <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 2)">
+                        <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 3)">
+                        <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 4)">
+                        <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 5)">
+                        <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 6)">
+                    </div>
+
+                    <div class="resend-otp">
+                        <p>Didn't receive the code?</p>
+                        <button type="button" id="resendBtn" onclick="resendOTP()" disabled>
+                            Resend OTP (<span id="timer">60</span>s)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Document Upload -->
+                <div class="form-step" data-step="3">
+                    <h2 style="margin-bottom: 20px;">Upload Documents</h2>
+                    <p style="color: #6b7280; margin-bottom: 20px;" id="uploadInstructions">
+                        Please upload the required documents for verification
+                    </p>
+
+                    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" 
+                         ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p><strong>Drag & Drop Files Here</strong></p>
+                        <p>or</p>
+                        <button type="button" class="btn btn-primary" style="margin-top: 10px;">Browse Files</button>
+                        <p class="file-types">Accepted: JPG, PNG, PDF | Max size: 5MB per file</p>
+                    </div>
+                    <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.pdf" style="display: none;" onchange="handleFiles(this.files)">
+
+                    <div class="file-list" id="fileList"></div>
+
+                    <div style="background: #eff6ff; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                        <p style="font-weight: 600; color: #1e40af; margin-bottom: 10px;">
+                            <i class="fas fa-info-circle"></i> Required Documents:
+                        </p>
+                        <ul id="requiredDocs" style="color: #3b82f6; margin-left: 20px;">
+                            <!-- Will be populated based on role -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 4: Review & Submit -->
+                <div class="form-step" data-step="4">
+                    <h2 style="margin-bottom: 20px;">Review Your Information</h2>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h3 style="color: #3b82f6; margin-bottom: 15px;">Personal Information</h3>
+                        <div style="display: grid; gap: 10px;">
+                            <p><strong>Name:</strong> <span id="reviewName"></span></p>
+                            <p><strong>Email:</strong> <span id="reviewEmail"></span> <span style="color: #10b981;">✓ Verified</span></p>
+                            <p><strong>Phone:</strong> <span id="reviewPhone"></span></p>
+                            <p><strong>Role:</strong> <span id="reviewRole"></span></p>
+                        </div>
+                    </div>
+
+                    <div style="background: #f0fdf4; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h3 style="color: #10b981; margin-bottom: 15px;">Documents Uploaded</h3>
+                        <div id="reviewDocs"></div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="termsCheckbox" required>
+                            <span>I agree to the <a href="#" style="color: #3b82f6;">Terms & Conditions</a></span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="privacyCheckbox" required>
+                            <span>I accept the <a href="#" style="color: #3b82f6;">Privacy Policy</a></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Success Screen -->
+                <div class="form-step" data-step="5">
+                    <div class="success-screen">
+                        <div class="success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h2>Registration Submitted Successfully!</h2>
+                        <p>Your application is now under review by our admin team.</p>
+                        <p>You'll receive an email notification once your account is approved.</p>
+                        
+                        <div class="application-id">
+                            Application ID: <span id="applicationId"></span>
+                        </div>
+
+                        <p style="margin-top: 20px;">
+                            <strong>Status:</strong> <span style="color: #f59e0b;">⏳ Pending Admin Approval</span>
+                        </p>
+
+                        <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='provider-login.html'">
+                                Go to Login
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href='entry.html'">
+                                Back to Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions" id="formActions">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousStep()" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/enhanced-registration.js"></script>
+</body>
+</html>

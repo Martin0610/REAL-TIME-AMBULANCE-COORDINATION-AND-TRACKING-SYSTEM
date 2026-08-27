@@ -1,0 +1,1190 @@
+/* Dashboard Styles for Driver and Hospital Portals */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #f0f9ff 100%);
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #f0f9ff 100%);
+}
+
+/* Sidebar */
+.dashboard-sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    border-right: 2px solid #e2e8f0;
+    box-shadow: 4px 0 20px rgba(59, 130, 246, 0.08);
+    z-index: 1000;
+}
+
+.sidebar-header {
+    padding: 30px 20px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-header i {
+    font-size: 2rem;
+    color: #3b82f6;
+}
+
+.sidebar-header h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Driver/Hospital Info */
+.driver-info,
+.hospital-info {
+    padding: 20px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.driver-avatar,
+.hospital-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    border: 2px solid #3b82f6;
+}
+
+.driver-avatar i,
+.hospital-avatar i {
+    font-size: 1.8rem;
+    color: #3b82f6;
+}
+
+.driver-details,
+.hospital-details {
+    text-align: center;
+}
+
+.driver-details h3,
+.hospital-details h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #1e293b;
+}
+
+.driver-details p,
+.hospital-details p {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 2px 0;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    color: #64748b;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 4px 12px;
+}
+
+.nav-item:hover {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+    color: #3b82f6;
+    border-left: 4px solid #3b82f6;
+    font-weight: 600;
+}
+
+.nav-item i {
+    font-size: 1.1rem;
+    width: 24px;
+}
+
+.nav-item .badge {
+    margin-left: auto;
+    background: #3b82f6;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Duty Toggle */
+.duty-toggle {
+    padding: 20px;
+    border-top: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #64748b;
+    transition: 0.4s;
+    border-radius: 26px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #22c55e;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+.duty-label {
+    flex: 1;
+}
+
+.duty-label span {
+    display: block;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #1e293b;
+}
+
+.duty-label small {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* Logout Button */
+.btn-logout {
+    margin: 20px;
+    padding: 12px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-logout:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+}
+
+/* Main Content */
+.dashboard-main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    background: white;
+    padding: 24px 32px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.dashboard-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #f1f5f9;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    color: #64748b;
+}
+
+.btn-icon:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+/* Content Sections */
+.content-section {
+    display: none;
+    padding: 32px;
+    animation: fadeIn 0.3s;
+}
+
+.content-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: #94a3b8;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #64748b;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    color: #94a3b8;
+}
+
+/* Trip Card */
+.trip-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+}
+
+.trip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.trip-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.trip-severity {
+    text-align: right;
+}
+
+.trip-severity span {
+    display: block;
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.severity-level {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #dc2626;
+}
+
+/* Status Badge */
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-badge.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.status-assigned {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-badge.status-en-route {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.status-badge.status-arrived {
+    background: #fce7f3;
+    color: #9f1239;
+}
+
+.status-badge.status-transporting {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.status-completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.status-cancelled {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+/* Trip Details */
+.trip-details {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.detail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.detail-row i {
+    font-size: 1.2rem;
+    color: #dc2626;
+    width: 24px;
+    margin-top: 2px;
+}
+
+.detail-row label {
+    display: block;
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.detail-row span {
+    display: block;
+    font-size: 1rem;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+/* Trip Actions */
+.trip-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-success {
+    background: #22c55e;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+/* Injury Report Card */
+.injury-report-card {
+    background: #fef3c7;
+    border: 2px solid #fbbf24;
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 24px;
+}
+
+.injury-report-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.help-text {
+    color: #92400e;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Stats Row */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card i {
+    font-size: 2rem;
+    color: #dc2626;
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.stat-card p {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+/* Incoming List */
+.incoming-list {
+    display: grid;
+    gap: 24px;
+}
+
+.incoming-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #3b82f6;
+    transition: all 0.3s;
+}
+
+.incoming-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.incoming-card.critical {
+    border-left-color: #dc2626;
+    background: #fef2f2;
+}
+
+.incoming-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.incoming-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.severity-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.severity-badge.severity-5 {
+    background: #dc2626;
+    color: white;
+}
+
+.severity-badge.severity-4 {
+    background: #f97316;
+    color: white;
+}
+
+.severity-badge.severity-3 {
+    background: #fbbf24;
+    color: #92400e;
+}
+
+.severity-badge.severity-2 {
+    background: #3b82f6;
+    color: white;
+}
+
+.severity-badge.severity-1 {
+    background: #22c55e;
+    color: white;
+}
+
+.incoming-details {
+    display: grid;
+    gap: 16px;
+}
+
+.eta-time {
+    color: #dc2626 !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+}
+
+/* Injury Report Section */
+.injury-report-section {
+    background: #fef3c7;
+    border: 2px solid #fbbf24;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 16px;
+}
+
+.injury-report-section h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.injury-details {
+    display: grid;
+    gap: 12px;
+}
+
+.injury-row {
+    display: flex;
+    gap: 12px;
+}
+
+.injury-row label {
+    font-weight: 600;
+    color: #92400e;
+    min-width: 80px;
+}
+
+.injury-row span,
+.injury-row p {
+    color: #1e293b;
+}
+
+.criticalness-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.criticalness-badge.criticalness-low {
+    background: #22c55e;
+    color: white;
+}
+
+.criticalness-badge.criticalness-moderate {
+    background: #fbbf24;
+    color: #92400e;
+}
+
+.criticalness-badge.criticalness-critical {
+    background: #f97316;
+    color: white;
+}
+
+.criticalness-badge.criticalness-life-threatening {
+    background: #dc2626;
+    color: white;
+}
+
+.no-report {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-style: italic;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.preparation-alert {
+    background: #fee2e2;
+    border: 2px solid #dc2626;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #991b1b;
+    font-weight: 600;
+}
+
+.preparation-alert i {
+    font-size: 1.5rem;
+}
+
+/* History */
+.history-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.history-list,
+.trip-history-list {
+    display: grid;
+    gap: 16px;
+}
+
+.history-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.history-header h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.history-details p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 6px 0;
+}
+
+.history-details i {
+    color: #dc2626;
+    width: 16px;
+}
+
+/* Profile */
+.profile-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.profile-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 24px;
+}
+
+.profile-details {
+    display: grid;
+    gap: 20px;
+}
+
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.profile-row label {
+    font-weight: 600;
+    color: #64748b;
+}
+
+.profile-row span {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.facilities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.facility-tag {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+    }
+    
+    .dashboard-main {
+        margin-left: 0;
+    }
+    
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Stats Grid for Hospital */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.stat-card-large {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card-large h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f8fafc;
+}
+
+.stat-row:last-child {
+    border-bottom: none;
+}
+
+.stat-row span {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.stat-row strong {
+    color: #1e293b;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* Map Styles */
+#trip-map,
+#full-map,
+#hospital-map {
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    padding: 4px;
+}
+
+.leaflet-popup-content {
+    margin: 12px;
+    font-family: 'Inter', sans-serif;
+}
+
+.ambulance-popup h4,
+.hospital-popup h4,
+.patient-popup h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ambulance-popup p,
+.hospital-popup p,
+.patient-popup p {
+    margin: 4px 0;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.ambulance-popup strong,
+.hospital-popup strong,
+.patient-popup strong {
+    color: #1e293b;
+}
+
+/* Custom Marker Styles */
+.custom-marker {
+    background: transparent;
+    border: none;
+}
+
+.custom-marker-emoji {
+    background: transparent;
+    border: none;
+}
+
+/* Scrollbar Styling */
+.sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.incoming-card,
+.history-card,
+.trip-card {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Button Hover Effects */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Focus States */
+.btn:focus,
+.btn-icon:focus,
+.form-control:focus {
+    outline: 2px solid #dc2626;
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .dashboard-sidebar,
+    .dashboard-header,
+    .btn,
+    .loading-overlay {
+        display: none !important;
+    }
+    
+    .dashboard-main {
+        margin-left: 0;
+    }
+    
+    .content-section {
+        display: block !important;
+    }
+}
+
+/* Traveling Banner Animation */
+.traveling-banner {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    animation: slideInDown 0.5s ease-out;
+}
+
+.traveling-banner i {
+    font-size: 24px;
+    animation: move-indicator 1s ease-in-out infinite;
+}
+
+.traveling-banner .text {
+    flex: 1;
+}
+
+.traveling-banner .text h4 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.traveling-banner .text p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+@keyframes move-indicator {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Ambulance Movement Animation */
+.ambulance-moving {
+    animation: pulse-ambulance 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-ambulance {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.15);
+        opacity: 0.8;
+    }
+}
+
+/* Hospital Name Banner */
+.hospital-name-banner {
+    margin: 16px 0;
+}

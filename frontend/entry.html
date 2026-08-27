@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Ambulance Service - Vandalur & Tambaram</title>
+    <link rel="stylesheet" href="styles/entry.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="entry-container">
+        <!-- Header -->
+        <header class="entry-header">
+            <div class="logo">
+                <i class="fas fa-ambulance"></i>
+                <span>Emergency Ambulance Service</span>
+            </div>
+            <div class="service-area">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Serving Chennai</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="entry-main">
+            <div class="welcome-section">
+                <h1>Welcome to Emergency Ambulance Service</h1>
+                <p class="subtitle">Fast, reliable emergency medical response available 24/7</p>
+                <div class="emergency-badge">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Emergency Hotline: <strong>108</strong></span>
+                </div>
+            </div>
+
+            <!-- ONE TAP EMERGENCY -->
+            <div class="sos-section">
+                <p class="sos-label">Elderly or can't fill forms?</p>
+                <button class="sos-btn" id="sos-btn" onclick="oneTapEmergency()">
+                    <span class="sos-pulse"></span>
+                    <i class="fas fa-ambulance"></i>
+                    <span>ONE TAP EMERGENCY</span>
+                </button>
+                <p class="sos-hint">Tap once — we detect your location and dispatch immediately</p>
+                <p class="sos-contact">Or call: <a href="tel:+917200336447" style="color:#fff; font-weight:700; text-decoration:none;">+91 7200336447</a></p>
+                <div id="sos-status" class="sos-status" style="display:none;"></div>
+            </div>
+
+            <!-- User Type Selection -->
+            <div class="user-selection">
+                <h2>How can we help you today?</h2>
+                
+                <div class="selection-cards">
+                    <!-- Patient Card -->
+                    <div class="selection-card patient-card" onclick="selectUserType('patient')">
+                        <div class="card-icon">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <h3>I Need an Ambulance</h3>
+                        <p>Book emergency ambulance service and track in real-time</p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> Instant booking</li>
+                            <li><i class="fas fa-check"></i> Real-time tracking</li>
+                            <li><i class="fas fa-check"></i> GPS location</li>
+                            <li><i class="fas fa-check"></i> Live ETA updates</li>
+                        </ul>
+                        <button class="card-button patient-button">
+                            Book Ambulance Now
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Service Provider Card -->
+                    <div class="selection-card provider-card" onclick="selectUserType('provider')">
+                        <div class="card-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h3>I'm a Service Provider</h3>
+                        <p>Login as ambulance driver or hospital staff</p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> Driver dashboard</li>
+                            <li><i class="fas fa-check"></i> Hospital portal</li>
+                            <li><i class="fas fa-check"></i> Real-time updates</li>
+                            <li><i class="fas fa-check"></i> Patient management</li>
+                        </ul>
+                        <button class="card-button provider-button">
+                            Login / Register
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="features-section">
+                <h3>Why Choose Our Service?</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-clock"></i>
+                        <h4>24/7 Availability</h4>
+                        <p>Round-the-clock emergency service</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h4>GPS Tracking</h4>
+                        <p>Real-time ambulance location</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-hospital"></i>
+                        <h4>Hospital Network</h4>
+                        <p>Connected to major hospitals</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-user-shield"></i>
+                        <h4>Trained Staff</h4>
+                        <p>Professional medical personnel</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="entry-footer">
+            <p>&copy; 2026 Emergency Ambulance Service. All rights reserved.</p>
+            <p>Serving Chennai and surrounding areas</p>
+        </footer>
+    </div>
+
+    <script>
+        function selectUserType(type) {
+            if (type === 'patient') {
+                window.location.href = 'patient-booking.html';
+            } else if (type === 'provider') {
+                window.location.href = 'provider-login.html';
+            }
+        }
+
+        async function oneTapEmergency() {
+            const btn = document.getElementById('sos-btn');
+            const status = document.getElementById('sos-status');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Detecting location...</span>';
+            status.style.display = 'block';
+            status.className = 'sos-status sos-pending';
+            status.textContent = '📍 Getting your location...';
+
+            try {
+                const pos = await new Promise((resolve, reject) =>
+                    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 10000 })
+                );
+
+                const { latitude, longitude } = pos.coords;
+                status.textContent = '🚑 Dispatching ambulance...';
+
+                // Reverse geocode to get address
+                let address = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+                try {
+                    const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+                    const geoData = await geo.json();
+                    if (geoData.display_name) address = geoData.display_name;
+                } catch(e) {}
+
+                // Create booking
+                const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || /^192\.168\./.test(window.location.hostname)) && window.location.port !== '5001'
+                    ? `http://${window.location.hostname}:5001/api`
+                    : `${window.location.origin}/api`;
+
+                const res = await fetch(`${API}/booking/create`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        callerType: 'patient',
+                        incidentType: 'medical',
+                        patientCount: 1,
+                        location: {
+                            pickup: { latitude, longitude, address }
+                        }
+                    })
+                });
+
+                const data = await res.json();
+                if (data.bookingId) {
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> <span>Help is on the way!</span>';
+                    btn.style.background = '#16a34a';
+                    status.className = 'sos-status sos-success';
+                    status.innerHTML = `✅ Ambulance dispatched!<br><strong>Booking ID: ${data.bookingId}</strong><br><a href="patient-booking.html?track=${data.bookingId}" style="color:#fff;text-decoration:underline;font-size:1.05rem;">📍 Track your ambulance →</a>`;
+                } else {
+                    throw new Error(data.error || 'Booking failed');
+                }
+            } catch (err) {
+                btn.disabled = false;
+                btn.innerHTML = '<span class="sos-pulse"></span><i class="fas fa-ambulance"></i> <span>ONE TAP EMERGENCY</span>';
+                status.className = 'sos-status sos-error';
+                if (err.code === 1) {
+                    status.textContent = '❌ Location access denied. Please allow location and try again.';
+                } else {
+                    status.textContent = '❌ Failed: ' + err.message;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

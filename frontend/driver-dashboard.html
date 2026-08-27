@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Dashboard - Smart Ambulance System</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-ambulance"></i>
+                <h2>Driver Portal</h2>
+            </div>
+            
+            <div class="driver-info">
+                <div class="driver-avatar">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="driver-details">
+                    <h3 id="driver-name">Loading...</h3>
+                    <p id="driver-phone">-</p>
+                    <p id="driver-ambulance">-</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="current-trip">
+                    <i class="fas fa-route"></i>
+                    <span>Current Trip</span>
+                </a>
+                <a href="#" class="nav-item" data-section="trip-history">
+                    <i class="fas fa-history"></i>
+                    <span>Trip History</span>
+                </a>
+                <a href="#" class="nav-item" data-section="map-view">
+                    <i class="fas fa-map"></i>
+                    <span>Map View</span>
+                </a>
+                <a href="#" class="nav-item" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+
+            <div class="duty-toggle">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="duty-status" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+                <div class="duty-label">
+                    <span id="duty-text">On Duty</span>
+                    <small>Toggle availability</small>
+                </div>
+            </div>
+
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <h1 id="page-title">Current Trip</h1>
+                <div class="header-actions">
+                    <button class="btn-icon" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Current Trip Section -->
+            <section id="current-trip-section" class="content-section active">
+                <div id="no-trip-message" class="empty-state">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>No Active Trip</h3>
+                    <p>You're on duty and ready for assignments</p>
+                </div>
+
+                <div id="active-trip-container" style="display: none;">
+                    <div class="trip-card">
+                        <div class="trip-header">
+                            <div>
+                                <h2 id="trip-booking-id">-</h2>
+                                <span class="status-badge" id="trip-status">-</span>
+                            </div>
+                            <div class="trip-severity" id="trip-severity-container" style="display: none;">
+                                <span id="trip-severity-label">Severity (Nurse Assessment)</span>
+                                <div class="severity-level" id="trip-severity">-</div>
+                            </div>
+                        </div>
+
+                        <div class="trip-details">
+                            <div class="detail-row">
+                                <i class="fas fa-user-injured"></i>
+                                <div>
+                                    <label>Patient</label>
+                                    <span id="trip-patient-name">-</span>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fas fa-birthday-cake"></i>
+                                <div>
+                                    <label>Age</label>
+                                    <span id="trip-patient-age">-</span>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <label>Contact</label>
+                                    <span id="trip-patient-phone">-</span>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <div>
+                                    <label>Emergency</label>
+                                    <span id="trip-emergency-desc">-</span>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <label>Pickup Location</label>
+                                    <span id="trip-pickup-address">-</span>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fas fa-route"></i>
+                                <div>
+                                    <label>Distance</label>
+                                    <span id="trip-distance">-</span>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <label>ETA</label>
+                                    <span id="trip-eta">-</span>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fas fa-hospital"></i>
+                                <div>
+                                    <label>Destination</label>
+                                    <span id="trip-destination">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Prominent Hospital Name Display -->
+                        <div id="hospital-name-banner" class="hospital-name-banner" style="display: none;">
+                            <div style="background: #dcfce7; padding: 16px; border-radius: 8px; border: 2px solid #059669; margin: 16px 0;">
+                                <div style="font-size: 18px; font-weight: 700; color: #059669; margin-bottom: 4px;">
+                                    🏥 Destination: <span id="trip-hospital-name">-</span>
+                                </div>
+                                <div style="font-size: 13px; color: #047857;">
+                                    Patient will be transported to this hospital
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Traveling Banner -->
+                        <div id="driver-traveling-banner" class="traveling-banner" style="display: none;">
+                            <i class="fas fa-ambulance"></i>
+                            <div class="text">
+                                <h4>En Route</h4>
+                                <p id="driver-traveling-text">Traveling to patient location...</p>
+                            </div>
+                        </div>
+
+                        <div class="trip-map" id="trip-map" style="height: 300px; border-radius: 12px; margin: 20px 0;"></div>
+
+                        <div class="trip-actions">
+                            <button class="btn btn-primary" id="btn-accept" style="display: none;">
+                                <i class="fas fa-check"></i> Accept Trip
+                            </button>
+                            <button class="btn btn-primary" id="btn-start-journey" style="display: none;">
+                                <i class="fas fa-play"></i> Start Journey
+                            </button>
+                            <button class="btn btn-success" id="btn-arrived" style="display: none;">
+                                <i class="fas fa-map-pin"></i> Arrived at Patient
+                            </button>
+                            <button class="btn btn-success" id="btn-pickup" style="display: none;">
+                                <i class="fas fa-user-check"></i> Patient Picked Up
+                            </button>
+                            <button class="btn btn-primary" id="btn-complete" style="display: none;">
+                                <i class="fas fa-flag-checkered"></i> Complete Trip
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Criticalness Report Card -->
+                    <div class="injury-report-card" id="criticalness-form-card" style="display: none;">
+                        <h3><i class="fas fa-notes-medical"></i> Patient Assessment Report (Nurse)</h3>
+                        <p class="help-text">Nurse accompanying driver must assess patient condition and alert hospital</p>
+                        
+                        <div class="form-group">
+                            <label>Severity Level (1-5) *</label>
+                            <select id="severity-level" class="form-control">
+                                <option value="">Select severity...</option>
+                                <option value="1">1 - Minor (Non-urgent, stable)</option>
+                                <option value="2">2 - Mild (Requires attention soon)</option>
+                                <option value="3">3 - Moderate (Urgent attention needed)</option>
+                                <option value="4">4 - Serious (Life-threatening, critical)</option>
+                                <option value="5">5 - Critical (Immediate intervention required)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Condition Severity *</label>
+                            <select id="criticalness-level" class="form-control">
+                                <option value="">Select condition...</option>
+                                <option value="low">Low - Minor injuries, stable vitals</option>
+                                <option value="moderate">Moderate - Requires medical attention</option>
+                                <option value="critical">Critical - Serious condition, unstable</option>
+                                <option value="life-threatening">Life-Threatening - Immediate care needed</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Injury/Condition Details *</label>
+                            <textarea id="injury-details" class="form-control" rows="3" 
+                                placeholder="Describe injuries, wounds, fractures, bleeding, etc."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Additional Notes (Vital Signs, Consciousness, etc.)</label>
+                            <textarea id="criticalness-description" class="form-control" rows="3" 
+                                placeholder="Blood pressure, heart rate, consciousness level, breathing, etc."></textarea>
+                        </div>
+
+                        <button class="btn btn-primary" id="btn-submit-report">
+                            <i class="fas fa-paper-plane"></i> Send Assessment to Hospital
+                        </button>
+                    </div>
+
+                    <!-- Submitted Report Display -->
+                    <div class="injury-report-card" id="submitted-report-card" style="display: none;">
+                        <h3><i class="fas fa-check-circle"></i> Assessment Submitted</h3>
+                        <div class="submitted-report-details">
+                            <!-- Details will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trip History Section -->
+            <section id="trip-history-section" class="content-section">
+                <div class="history-filters">
+                    <select id="history-filter" class="form-control">
+                        <option value="all">All Trips</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div id="trip-history-list" class="trip-history-list">
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>No trip history</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Map View Section -->
+            <section id="map-view-section" class="content-section">
+                <div id="full-map" style="height: calc(100vh - 200px); border-radius: 12px;"></div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile-section" class="content-section">
+                <div class="profile-card">
+                    <h3>Driver Information</h3>
+                    <div class="profile-details">
+                        <div class="profile-row">
+                            <label>Name</label>
+                            <span id="profile-name">-</span>
+                        </div>
+                        <div class="profile-row">
+                            <label>Email</label>
+                            <span id="profile-email">-</span>
+                        </div>
+                        <div class="profile-row">
+                            <label>Phone</label>
+                            <span id="profile-phone">-</span>
+                        </div>
+                        <div class="profile-row">
+                            <label>License Number</label>
+                            <span id="profile-license">-</span>
+                        </div>
+                        <div class="profile-row">
+                            <label>Ambulance</label>
+                            <span id="profile-ambulance">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/driver-dashboard.js"></script>
+</body>
+</html>

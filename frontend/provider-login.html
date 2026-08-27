@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider Login - Emergency Ambulance Service</title>
+    <link rel="stylesheet" href="styles/provider.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="provider-container">
+        <div class="provider-sidebar">
+            <div class="logo">
+                <i class="fas fa-ambulance"></i>
+                <span>Emergency Service</span>
+            </div>
+            <div class="sidebar-content">
+                <h2>Service Provider Portal</h2>
+                <p>Access your dashboard to manage emergency requests and patient care</p>
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Real-time tracking</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Instant notifications</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Patient management</span>
+                    </div>
+                </div>
+            </div>
+            <a href="entry.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+
+        <div class="provider-main">
+            <div class="tabs">
+                <button class="tab active" data-tab="login">Login</button>
+                <button class="tab" data-tab="register">Register</button>
+            </div>
+
+            <!-- Login Section -->
+            <div class="tab-content active" id="login-content">
+                <div class="role-selector">
+                    <button class="role-btn active" data-role="driver">
+                        <i class="fas fa-user-md"></i>
+                        Ambulance Driver
+                    </button>
+                    <button class="role-btn" data-role="hospital">
+                        <i class="fas fa-hospital"></i>
+                        Hospital Staff
+                    </button>
+                    <button class="role-btn" data-role="admin">
+                        <i class="fas fa-user-shield"></i>
+                        Administrator
+                    </button>
+                </div>
+
+                <form id="login-form" class="provider-form active-form">
+                    <h3 id="login-title">Driver Login</h3>
+                    
+                    <div class="form-group">
+                        <label for="login-email">
+                            <i class="fas fa-envelope"></i> Email Address
+                        </label>
+                        <input type="email" id="login-email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">
+                            <i class="fas fa-lock"></i> Password
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="login-password" required placeholder="Enter your password">
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('login-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+
+                    <p class="form-note">
+                        Don't have an account? <a href="#" onclick="switchTab('register'); return false;">Register here</a>
+                    </p>
+                </form>
+            </div>
+
+            <!-- Register Section -->
+            <div class="tab-content" id="register-content">
+                <div class="role-selector">
+                    <button class="role-btn active" data-role="driver">
+                        <i class="fas fa-user-md"></i>
+                        Ambulance Driver
+                    </button>
+                    <button class="role-btn" data-role="hospital">
+                        <i class="fas fa-hospital"></i>
+                        Hospital
+                    </button>
+                </div>
+
+                <!-- Driver Registration Form -->
+                <form id="driver-register-form" class="provider-form active-form">
+                    <h3>Driver Registration</h3>
+                    <p class="form-subtitle">Your registration will be reviewed by admin before approval</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="driver-name">Full Name *</label>
+                            <input type="text" id="driver-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="driver-phone">Phone Number *</label>
+                            <input type="tel" id="driver-phone" pattern="[0-9]{10}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="driver-email">Email Address *</label>
+                        <input type="email" id="driver-email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="driver-license">License Number *</label>
+                        <input type="text" id="driver-license" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="driver-password">Password *</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="driver-password" minlength="6" required>
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('driver-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="driver-confirm-password">Confirm Password *</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="driver-confirm-password" minlength="6" required>
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('driver-confirm-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Document Upload Section -->
+                    <div class="form-group">
+                        <label>Upload Driving License (Optional)</label>
+                        <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 10px;">
+                            Upload your driving license for faster verification
+                        </p>
+                        <div class="file-upload-area">
+                            <input type="file" id="driver-documents" multiple accept=".jpg,.jpeg,.png,.pdf" style="display: none;" onchange="handleDriverFileUpload(this.files)">
+                            <button type="button" class="btn-upload" onclick="document.getElementById('driver-documents').click()">
+                                <i class="fas fa-cloud-upload-alt"></i> Choose Files
+                            </button>
+                            <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 8px;">
+                                JPG, PNG, PDF | Max 5MB per file
+                            </p>
+                        </div>
+                        <div id="driver-file-list" class="uploaded-files-list"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-user-plus"></i> Submit Registration
+                    </button>
+
+                    <p class="form-note">
+                        Already registered? <a href="#" onclick="switchTab('login')">Login here</a>
+                    </p>
+                </form>
+
+                <!-- Hospital Registration Form -->
+                <form id="hospital-register-form" class="provider-form">
+                    <h3>Hospital Registration</h3>
+                    <p class="form-subtitle">Your registration will be reviewed by admin before approval</p>
+
+                    <div class="form-group">
+                        <label for="hospital-name">Hospital Name *</label>
+                        <input type="text" id="hospital-name" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hospital-email">Email Address *</label>
+                            <input type="email" id="hospital-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hospital-phone">Phone Number *</label>
+                            <input type="tel" id="hospital-phone" pattern="[0-9]{10}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hospital-address">Hospital Address *</label>
+                        <textarea id="hospital-address" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hospital-capacity">Bed Capacity *</label>
+                        <input type="number" id="hospital-capacity" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Facilities & Services *</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="facilities" value="24hr"> 24/7 Emergency
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="facilities" value="icu"> ICU Available
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="facilities" value="mri"> MRI Scan
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="facilities" value="xray"> X-Ray
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="facilities" value="ct"> CT Scan
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="facilities" value="trauma"> Trauma Center
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="facilities" value="cardiology"> Cardiology
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="facilities" value="neurology"> Neurology
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hospital-password">Password *</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="hospital-password" minlength="6" required>
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('hospital-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hospital-confirm-password">Confirm Password *</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="hospital-confirm-password" minlength="6" required>
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('hospital-confirm-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Document Upload Section -->
+                    <div class="form-group">
+                        <label>Upload Documents (Optional)</label>
+                        <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 10px;">
+                            Upload hospital registration certificate or medical license for faster verification
+                        </p>
+                        <div class="file-upload-area">
+                            <input type="file" id="hospital-documents" multiple accept=".jpg,.jpeg,.png,.pdf" style="display: none;" onchange="handleHospitalFileUpload(this.files)">
+                            <button type="button" class="btn-upload" onclick="document.getElementById('hospital-documents').click()">
+                                <i class="fas fa-cloud-upload-alt"></i> Choose Files
+                            </button>
+                            <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 8px;">
+                                JPG, PNG, PDF | Max 5MB per file
+                            </p>
+                        </div>
+                        <div id="hospital-file-list" class="uploaded-files-list"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-hospital-alt"></i> Submit Registration
+                    </button>
+
+                    <p class="form-note">
+                        Already registered? <a href="#" onclick="switchTab('login')">Login here</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- OTP Verification Modal -->
+    <div id="otp-modal" class="otp-modal">
+        <div class="otp-modal-content">
+            <div class="otp-modal-header">
+                <h2>Verify Your Email</h2>
+                <p>We've sent a 6-digit OTP to <strong id="otp-email-display"></strong></p>
+            </div>
+            <div class="otp-inputs">
+                <input type="text" class="otp-input" maxlength="1" id="otp1" oninput="moveToNextOTP(this, 1)">
+                <input type="text" class="otp-input" maxlength="1" id="otp2" oninput="moveToNextOTP(this, 2)">
+                <input type="text" class="otp-input" maxlength="1" id="otp3" oninput="moveToNextOTP(this, 3)">
+                <input type="text" class="otp-input" maxlength="1" id="otp4" oninput="moveToNextOTP(this, 4)">
+                <input type="text" class="otp-input" maxlength="1" id="otp5" oninput="moveToNextOTP(this, 5)">
+                <input type="text" class="otp-input" maxlength="1" id="otp6" oninput="moveToNextOTP(this, 6)">
+            </div>
+            <div class="otp-resend">
+                <p>Didn't receive the code?</p>
+                <button type="button" id="resend-otp-btn" onclick="resendOTP()" disabled>
+                    Resend OTP (<span id="otp-timer">60</span>s)
+                </button>
+            </div>
+            <div class="otp-actions">
+                <button type="button" class="btn-cancel" onclick="closeOTPModal()">Cancel</button>
+                <button type="button" class="btn-verify" onclick="verifyOTPAndSubmit()">Verify & Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" id="modal-header">
+                <h3 id="modal-title"></h3>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/provider-auth.js"></script>
+</body>
+</html>

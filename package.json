@@ -1,0 +1,17 @@
+{
+  "name": "smart-ambulance-system",
+  "version": "1.0.0",
+  "description": "Real-time web-based smart ambulance coordination and tracking system",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "build:frontend": "npm run --prefix frontend build",
+    "build": "npm run install:all && npm run build:frontend",
+    "start": "node backend/server.js",
+    "backend": "npm run --prefix backend dev",
+    "frontend": "npm run --prefix frontend dev"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
