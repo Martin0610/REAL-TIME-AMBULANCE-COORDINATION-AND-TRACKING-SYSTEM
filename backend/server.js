@@ -20,6 +20,9 @@ const locationCache = require('./utils/location-cache');
 const app = express();
 const server = http.createServer(app);
 
+// Trust proxy header for Render and Cloudflare
+app.set('trust proxy', 1);
+
 // Validate required env vars at startup
 if (!process.env.JWT_SECRET) {
   console.error('FATAL: JWT_SECRET environment variable is not set. Refusing to start.');
@@ -74,8 +77,9 @@ app.use(cors({
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'production' ? 200 : 2000,
+  max: process.env.NODE_ENV === 'production' ? 1000 : 2000,
   message: 'Too many requests from this IP, please try again later.',
+  validate: false,
   skip: (req) => req.path === '/health' // skip health checks
 });
 app.use(limiter);
