@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const User = require('../models/User');
@@ -47,6 +48,13 @@ const generateToken = (userId, role) => {
 // Login endpoint
 router.post('/login', async (req, res) => {
   try {
+    // Check if database is connected
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ 
+        error: 'Database is not connected. Please check your MongoDB Atlas credentials in Render environment variables.' 
+      });
+    }
+
     const { error } = loginSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ error: error.details[0].message });

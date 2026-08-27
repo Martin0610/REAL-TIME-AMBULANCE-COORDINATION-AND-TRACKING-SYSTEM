@@ -10,8 +10,11 @@
     <style>
         .booking-container {
             max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
+            margin: 100px auto 40px auto;
+            padding: 0 20px;
+            background: transparent !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
         }
         
         .booking-card {
@@ -742,6 +745,17 @@
         body.dark-mode {
             background: #1a1a1a;
             color: #e5e7eb;
+        }
+        
+        body.dark-mode .booking-container {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+        
+        body.dark-mode #driver-contact-list {
+            background: #374151 !important;
+            border-color: #4b5563 !important;
+            color: #fbbf24 !important;
         }
         
         body.dark-mode .navbar {

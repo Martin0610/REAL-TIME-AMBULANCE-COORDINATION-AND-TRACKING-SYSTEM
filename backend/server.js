@@ -235,7 +235,14 @@ app.get('/api/route', async (req, res) => {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  const dbState = states[mongoose.connection.readyState] || 'unknown';
+  res.json({ 
+    status: 'OK', 
+    database: dbState,
+    dbReady: mongoose.connection.readyState === 1,
+    timestamp: new Date().toISOString() 
+  });
 });
 
 // Serve frontend app for all other routes in production
