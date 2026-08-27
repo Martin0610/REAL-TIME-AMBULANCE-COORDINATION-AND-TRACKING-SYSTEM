@@ -52,7 +52,7 @@
                 
                 <div class="selection-cards">
                     <!-- Patient Card -->
-                    <div class="selection-card patient-card" onclick="selectUserType('patient')">
+                    <a href="patient-booking.html" class="selection-card patient-card" style="text-decoration: none; color: inherit; display: block;">
                         <div class="card-icon">
                             <i class="fas fa-user-injured"></i>
                         </div>
@@ -64,14 +64,14 @@
                             <li><i class="fas fa-check"></i> GPS location</li>
                             <li><i class="fas fa-check"></i> Live ETA updates</li>
                         </ul>
-                        <button class="card-button patient-button">
+                        <div class="card-button patient-button">
                             Book Ambulance Now
                             <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
+                        </div>
+                    </a>
 
                     <!-- Service Provider Card -->
-                    <div class="selection-card provider-card" onclick="selectUserType('provider')">
+                    <a href="provider-login.html" class="selection-card provider-card" style="text-decoration: none; color: inherit; display: block;">
                         <div class="card-icon">
                             <i class="fas fa-user-md"></i>
                         </div>
@@ -83,11 +83,11 @@
                             <li><i class="fas fa-check"></i> Real-time updates</li>
                             <li><i class="fas fa-check"></i> Patient management</li>
                         </ul>
-                        <button class="card-button provider-button">
+                        <div class="card-button provider-button">
                             Login / Register
                             <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
+                        </div>
+                    </a>
                 </div>
             </div>
 
