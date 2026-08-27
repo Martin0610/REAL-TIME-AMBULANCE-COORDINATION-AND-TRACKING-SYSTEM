@@ -57,6 +57,7 @@ const io = socketIo(server, {
 
 // Security middleware
 app.use(helmet({
+  contentSecurityPolicy: false,
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 app.use(cors({
@@ -82,6 +83,11 @@ app.use(limiter);
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// Redirect root to entry.html directly
+app.get('/', (req, res) => {
+  res.redirect('/entry.html');
+});
 
 // Serve static files in production (frontend build)
 if (process.env.NODE_ENV === 'production') {
