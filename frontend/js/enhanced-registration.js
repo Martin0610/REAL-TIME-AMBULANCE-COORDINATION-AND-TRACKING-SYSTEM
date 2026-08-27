@@ -15,20 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function nextStep() {
     if (validateCurrentStep()) {
         if (currentStep === 1) {
-            // Send OTP before moving to step 2
-            sendOTP();
-        } else if (currentStep === 2) {
-            // Verify OTP
-            if (verifyOTP()) {
-                moveToStep(currentStep + 1);
-            }
+            // Skip OTP step and go directly to document upload
+            moveToStep(3);
         } else if (currentStep === 3) {
-            // Check if files are uploaded
-            if (uploadedFiles.length === 0) {
-                alert('Please upload at least one document');
-                return;
-            }
-            moveToStep(currentStep + 1);
+            moveToStep(4);
             populateReview();
         } else if (currentStep === 4) {
             // Submit registration
@@ -38,7 +28,9 @@ function nextStep() {
 }
 
 function previousStep() {
-    if (currentStep > 1) {
+    if (currentStep === 3) {
+        moveToStep(1);
+    } else if (currentStep > 1) {
         moveToStep(currentStep - 1);
     }
 }

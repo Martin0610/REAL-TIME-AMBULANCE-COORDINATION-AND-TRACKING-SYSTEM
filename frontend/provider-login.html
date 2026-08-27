@@ -290,34 +290,6 @@
         </div>
     </div>
 
-    <!-- OTP Verification Modal -->
-    <div id="otp-modal" class="otp-modal">
-        <div class="otp-modal-content">
-            <div class="otp-modal-header">
-                <h2>Verify Your Email</h2>
-                <p>We've sent a 6-digit OTP to <strong id="otp-email-display"></strong></p>
-            </div>
-            <div class="otp-inputs">
-                <input type="text" class="otp-input" maxlength="1" id="otp1" oninput="moveToNextOTP(this, 1)">
-                <input type="text" class="otp-input" maxlength="1" id="otp2" oninput="moveToNextOTP(this, 2)">
-                <input type="text" class="otp-input" maxlength="1" id="otp3" oninput="moveToNextOTP(this, 3)">
-                <input type="text" class="otp-input" maxlength="1" id="otp4" oninput="moveToNextOTP(this, 4)">
-                <input type="text" class="otp-input" maxlength="1" id="otp5" oninput="moveToNextOTP(this, 5)">
-                <input type="text" class="otp-input" maxlength="1" id="otp6" oninput="moveToNextOTP(this, 6)">
-            </div>
-            <div class="otp-resend">
-                <p>Didn't receive the code?</p>
-                <button type="button" id="resend-otp-btn" onclick="resendOTP()" disabled>
-                    Resend OTP (<span id="otp-timer">60</span>s)
-                </button>
-            </div>
-            <div class="otp-actions">
-                <button type="button" class="btn-cancel" onclick="closeOTPModal()">Cancel</button>
-                <button type="button" class="btn-verify" onclick="verifyOTPAndSubmit()">Verify & Submit</button>
-            </div>
-        </div>
-    </div>
-
     <div id="loading-overlay" class="loading-overlay">
         <div class="loading-spinner">
             <i class="fas fa-spinner fa-spin"></i>

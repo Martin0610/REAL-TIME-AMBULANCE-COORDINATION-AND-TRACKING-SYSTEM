@@ -21,7 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize dashboard
     initializeDashboard();
     
-    // Load initial data
+    // Switch to Analytics first when admin opens the page
+    switchSection('analytics');
+    
+    // Load initial data in background
     loadPendingRegistrations();
     loadSystemOverview();
 });

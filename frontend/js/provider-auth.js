@@ -38,7 +38,17 @@ function switchTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
     });
-    document.getElementById(`${tabName}-content`).classList.add('active');
+    const targetContent = document.getElementById(`${tabName}-content`);
+    if (targetContent) targetContent.classList.add('active');
+
+    if (tabName === 'login') {
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) loginForm.classList.add('active-form');
+        switchRole(currentRole || 'driver');
+    } else if (tabName === 'register') {
+        const regRole = (currentRole === 'admin') ? 'driver' : (currentRole || 'driver');
+        switchRole(regRole);
+    }
 }
 
 // Setup role button switching
@@ -57,36 +67,42 @@ function switchRole(role) {
     
     // Update role buttons in current tab
     const activeTabContent = document.querySelector('.tab-content.active');
-    activeTabContent.querySelectorAll('.role-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-role') === role) {
-            btn.classList.add('active');
-        }
-    });
+    if (activeTabContent) {
+        activeTabContent.querySelectorAll('.role-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-role') === role) {
+                btn.classList.add('active');
+            }
+        });
+    }
     
-    // Update login title
+    // Update login title & ensure login-form is active
     if (currentTab === 'login') {
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) loginForm.classList.add('active-form');
+
         const title = document.getElementById('login-title');
         const titles = {
             'driver': 'Driver Login',
             'hospital': 'Hospital Login',
             'admin': 'Admin Login'
         };
-        title.textContent = titles[role] || 'Login';
+        if (title) title.textContent = titles[role] || 'Login';
     }
     
-    // Update registration forms
+    // Update registration forms only in register tab
     if (currentTab === 'register') {
-        document.querySelectorAll('.provider-form').forEach(form => {
+        document.querySelectorAll('#register-content .provider-form').forEach(form => {
             form.classList.remove('active-form');
         });
         
         if (role === 'driver') {
-            document.getElementById('driver-register-form').classList.add('active-form');
+            const driverForm = document.getElementById('driver-register-form');
+            if (driverForm) driverForm.classList.add('active-form');
         } else if (role === 'hospital') {
-            document.getElementById('hospital-register-form').classList.add('active-form');
+            const hospForm = document.getElementById('hospital-register-form');
+            if (hospForm) hospForm.classList.add('active-form');
         }
-        // Admin cannot register from here
     }
 }
 
@@ -202,8 +218,8 @@ async function handleDriverRegistration(e) {
         name, phone, email, license, password: '***'
     });
     
-    // Send OTP for email verification
-    sendOTPEmail(email, 'driver', formData);
+    // Submit directly without email OTP
+    submitRegistrationWithFiles('driver', formData);
 }
 
 // Handle hospital registration
@@ -267,8 +283,8 @@ async function handleHospitalRegistration(e) {
     formData.append('password', password);
     formData.append('role', 'hospital');
     
-    // Send OTP for email verification
-    sendOTPEmail(email, 'hospital', formData);
+    // Submit directly without email OTP
+    submitRegistrationWithFiles('hospital', formData);
 }
 
 // Show loading overlay
